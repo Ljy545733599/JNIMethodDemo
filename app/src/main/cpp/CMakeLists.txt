@@ -5,7 +5,7 @@ cmake_minimum_required(VERSION 3.10.2)
 project("jnimethoddemo")
 
 # 遍历当前文件，添加所有的 .cpp 文件到 SRC_JNI 列表中
-file(GLOB_RECURSE SRC_JNI ./*.cpp)
+file(GLOB_RECURSE SRC_JNI ./*.cpp JNIUtil.cpp)
 list(APPEND SRC_LIST ${SRC_JNI})
 
 # 创建一个库，可以是 STATIC 静态库，也可以是 SHARED 动态库

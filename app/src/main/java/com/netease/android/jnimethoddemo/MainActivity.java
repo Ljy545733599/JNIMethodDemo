@@ -3,12 +3,11 @@ package com.netease.android.jnimethoddemo;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
-import android.widget.TextView;
 
-import com.netease.android.jnimethoddemo.databinding.ActivityMainBinding;
 import com.netease.android.jnimethoddemo.exception.ExceptionMethod;
 
 public class MainActivity extends AppCompatActivity {
+    private long nativeBookManager;
 
     // Used to load the 'jnimethoddemo' library on application startup.
     static {
@@ -37,7 +36,12 @@ public class MainActivity extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        createBookManager();
     }
 
-
+    private void createBookManager() {
+        nativeBookManager = BookManager.createBookManager();
+        BookManager.addBook(nativeBookManager, "百年孤独",100);
+    }
 }

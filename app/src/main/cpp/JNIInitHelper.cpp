@@ -1,6 +1,8 @@
 #include <jni.h>
 #include <string>
 
+#include "JNIAndroid.h"
+
 namespace jnidemo {
     extern "C" {
     //1.注册方法声明
@@ -12,6 +14,8 @@ namespace jnidemo {
 
     extern jint register_android_method_exception(JNIEnv *);
 
+    extern jint register_android_book_manager(JNIEnv *);
+
     //2.给注册方法一个别名，方便使用
     using reg_jni_method = jint (*)(JNIEnv *env);
 
@@ -21,6 +25,7 @@ namespace jnidemo {
             register_android_method_b,
             register_android_method_c,
             register_android_method_exception,
+            register_android_book_manager
     };
 
     //4.遍历注册
@@ -36,6 +41,9 @@ namespace jnidemo {
     //5.JNI_OnLoad 方法
     JNIEXPORT jint JNI_OnLoad(JavaVM *vm, void *reserved) {
         JNIEnv *env = nullptr;
+
+        //保存当前 java vm
+        InitVM(vm);
         if (vm->GetEnv((void **) &env, JNI_VERSION_1_6) != JNI_OK) {
             return JNI_ERR;
         }
