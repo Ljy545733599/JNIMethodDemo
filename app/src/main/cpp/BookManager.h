@@ -21,6 +21,8 @@ namespace jnidemo {
 
         static void AddBook(JNIEnv *env, jclass clazz, jlong native_ptr, jstring name, jint price);
 
+        static void PrintBookInfoNative(JNIEnv *env, jclass clazz, jlong native_ptr);
+
         static void DestroyBookManager(long manager);
 
     private:

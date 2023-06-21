@@ -43,5 +43,6 @@ public class MainActivity extends AppCompatActivity {
     private void createBookManager() {
         nativeBookManager = BookManager.createBookManager();
         BookManager.addBook(nativeBookManager, "百年孤独",100);
+        BookManager.printInfo(nativeBookManager);
     }
 }

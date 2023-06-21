@@ -18,6 +18,7 @@ namespace jnidemo {
         JNINativeMethod methods[] = {
                 {"createBookManager", "()J",                     (void *) BookManager::CreateBookManager},
                 {"addBook",           "(JLjava/lang/String;I)V", (void *) BookManager::AddBook},
+                {"printInfo",         "(J)V",                    (void *) BookManager::PrintBookInfoNative},
         };
 
 
@@ -44,30 +45,6 @@ namespace jnidemo {
         book_ = nullptr;
     }
 
-    void BookManager::AddNewBook(const std::string &name, int price) {
-        JNIEnv *env = AttachCurrentThread();
-        if (env == nullptr) {
-            return;
-        }
-
-        jclass cls_string = env->FindClass("com/netease/android/jnimethoddemo/Book");
-        if (cls_string == nullptr) {
-            return;
-        }
-
-        jmethodID mid = env->GetMethodID(cls_string, "<init>", "(Ljava/lang/String;I)V");
-        if (mid == nullptr) {
-            return;
-        }
-
-
-        jstring book_name = env->NewStringUTF(name.c_str());
-        book_ = env->NewGlobalRef(env->NewObject(cls_string, mid, book_name, price));
-        env->DeleteLocalRef(cls_string);
-
-        PrintBookInfo();
-    }
-
     void BookManager::PrintBookInfo() {
         if (book_ == nullptr) {
             return;
@@ -89,6 +66,37 @@ namespace jnidemo {
         }
 
         env->CallVoidMethod(book_, mid);
+    }
+
+    void BookManager::AddNewBook(const std::string &name, int price) {
+        JNIEnv *env = AttachCurrentThread();
+        if (env == nullptr) {
+            return;
+        }
+
+        jclass cls_string = env->FindClass("com/netease/android/jnimethoddemo/Book");
+        if (cls_string == nullptr) {
+            return;
+        }
+
+        jmethodID mid = env->GetMethodID(cls_string, "<init>", "(Ljava/lang/String;I)V");
+        if (mid == nullptr) {
+            return;
+        }
+
+
+        jstring book_name = env->NewStringUTF(name.c_str());
+        book_ = env->NewGlobalRef(env->NewObject(cls_string, mid, book_name, price));
+        env->DeleteLocalRef(cls_string);
+    }
+
+    void BookManager::PrintBookInfoNative(JNIEnv *env, jclass clazz, jlong native_ptr) {
+        auto *book_manager = reinterpret_cast<BookManager *>(native_ptr);
+        if (book_manager == nullptr) {
+            return;
+        }
+
+        book_manager->PrintBookInfo();
     }
 
     jlong BookManager::CreateBookManager(JNIEnv *env, jclass clazz) {
