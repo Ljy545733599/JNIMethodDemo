@@ -19,6 +19,7 @@ namespace jnidemo {
                 {"createBookManager", "()J",                     (void *) BookManager::CreateBookManager},
                 {"addBook",           "(JLjava/lang/String;I)V", (void *) BookManager::AddBook},
                 {"printInfo",         "(J)V",                    (void *) BookManager::PrintBookInfoNative},
+                {"destroy",         "(J)V",                    (void *) BookManager::DestroyBookManager},
         };
 
 
@@ -104,8 +105,13 @@ namespace jnidemo {
         return reinterpret_cast<jlong>(book_manager);
     }
 
-    void BookManager::DestroyBookManager(long manager) {
+    void BookManager::DestroyBookManager(JNIEnv *env, jclass clazz, jlong native_ptr) {
+        auto *book_manager = reinterpret_cast<BookManager *>(native_ptr);
+        if (book_manager == nullptr) {
+            return;
+        }
 
+        delete book_manager;
     }
 
     void

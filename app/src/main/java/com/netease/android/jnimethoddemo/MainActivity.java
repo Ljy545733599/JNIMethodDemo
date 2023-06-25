@@ -40,9 +40,12 @@ public class MainActivity extends AppCompatActivity {
         createBookManager();
     }
 
+
     private void createBookManager() {
         nativeBookManager = BookManager.createBookManager();
         BookManager.addBook(nativeBookManager, "百年孤独",100);
+        BookManager.printInfo(nativeBookManager);
+        BookManager.destroy(nativeBookManager);
         BookManager.printInfo(nativeBookManager);
     }
 }

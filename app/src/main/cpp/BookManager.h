@@ -23,7 +23,7 @@ namespace jnidemo {
 
         static void PrintBookInfoNative(JNIEnv *env, jclass clazz, jlong native_ptr);
 
-        static void DestroyBookManager(long manager);
+        static void DestroyBookManager(JNIEnv *env, jclass clazz, jlong manager);
 
     private:
         void AddNewBook(const std::string& name, int price);
